@@ -12,6 +12,5 @@ public class MapEditorApplication {
     public static void main(String[] args) throws IOException {
         MainWindow root=  new MainWindow();
         root.init();
-
     }
 }
