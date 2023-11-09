@@ -14,9 +14,9 @@ import java.io.InputStream;
 
 import com.ht.meditor.mode.MaterialType;
 
-public class DesignSpriteGroupPanel extends JPanel {
+public class DesignMaterialGroupPanel extends JPanel {
 
-     public DesignSpriteGroupPanel() throws IOException {
+     public DesignMaterialGroupPanel() throws IOException {
 
           JPanel jPanel = new JPanel();
           jPanel.setPreferredSize(new Dimension(240, 1100));
@@ -25,11 +25,14 @@ public class DesignSpriteGroupPanel extends JPanel {
 
           this.add(jScrollPane);
           this.setLayout(new GridLayout(1,1));
+
           InputStream in= this.getClass().getResourceAsStream("/image/1.png");
           ImageIcon imageIcon1= new ImageIcon(ImageIO.read(in));
           imageIcon1.setImage(imageIcon1.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-          JLabel label1 = new JLabel(imageIcon1);
+
           Border blackline = BorderFactory.createLineBorder(Color.BLACK);
+
+          JLabel label1 = new JLabel(imageIcon1);
           label1.setBorder(blackline);
           jPanel.add(label1);
           label1.addMouseListener(new MouseAdapter() {
@@ -38,6 +41,7 @@ public class DesignSpriteGroupPanel extends JPanel {
                     MaterialSelect.selectMaterialType(MaterialType.stone);
                }
           });
+
 
           ImageIcon imageIcon2= new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream("/image/2.png")));
           imageIcon2.setImage(imageIcon2.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));

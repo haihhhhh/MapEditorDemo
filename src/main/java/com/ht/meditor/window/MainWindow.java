@@ -1,24 +1,21 @@
-package com.oop.sheep.window;
+package com.ht.meditor.window;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-@Component
-@AllArgsConstructor
 public class MainWindow extends JFrame {
 
-    private final DesignPanel designPanel;
+    private  DesignPanel designPanel;
 
     public void init() throws IOException {
-
+        designPanel=new DesignPanel();
         designPanel.init();
         this.setLayout(new BorderLayout());
         this.add(designPanel);
-        this.setTitle("java oop sheep");
+        this.setTitle("MapEditor");
         getRootPane().setBorder(
                 BorderFactory.createMatteBorder(4, 4, 4, 4, Color.GRAY));
 
@@ -33,7 +30,5 @@ public class MainWindow extends JFrame {
         setVisible(true);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
     }
 }

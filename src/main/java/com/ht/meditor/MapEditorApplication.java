@@ -1,22 +1,17 @@
-package com.oop.sheep;
+package com.ht.meditor;
 
+import com.ht.meditor.window.MainWindow;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
+import java.io.IOException;
 
 /**
- * @author 13889
- * @tite MockSoftwareApplication
- * @projectName mocksoftware
- * @description : TODO
- * @date 2021/12/19 15:56
+ * @author ht
  */
-@SpringBootApplication
-public class SheepApplication {
+public class MapEditorApplication {
 
-    public static void main(String[] args) {
-        SpringApplicationBuilder builder = new SpringApplicationBuilder(SheepApplication.class);
-        builder.headless(false).run(args);
+    public static void main(String[] args) throws IOException {
+        MainWindow root=  new MainWindow();
+        root.init();
 
     }
 }

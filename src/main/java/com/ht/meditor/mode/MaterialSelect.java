@@ -1,14 +1,14 @@
 package com.ht.meditor.mode;
 
-public class HeroSelectContextHolder {
+public class MaterialSelect {
 
-    private static MaterialType materialType = MaterialType.HERO_TYPE_1;
+    private static MaterialType materialType = MaterialType.stone;
 
-    public static void selectHeroType(MaterialType materialType){
-        HeroSelectContextHolder.materialType = materialType;
+    public static void selectMaterialType(MaterialType materialType){
+        MaterialSelect.materialType = materialType;
     }
 
-    public static MaterialType currentHeroType(){
+    public static MaterialType currentMaterialType(){
         return materialType;
     }
 }

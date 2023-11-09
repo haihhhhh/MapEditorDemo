@@ -1,25 +1,23 @@
-package com.oop.sheep.window;
-
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
+package com.ht.meditor.window;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-@Component
-@AllArgsConstructor
 public class DesignPanel extends JPanel {
 
-    private final DesignMapPanel designMapPanel;
+    private  DesignMapPanel designMapPanel ;
 
-    private final DesignSpriteGroupPanel spriteGroupPanel;
+    private DesignMaterialGroupPanel materialGroupPanel;
 
-    private final DesignButtonPanel buttonPanel;
+    private DesignToolButtonPanel buttonPanel;
 
     public void init() throws IOException {
+        designMapPanel= new DesignMapPanel();
+        materialGroupPanel= new DesignMaterialGroupPanel();
+        buttonPanel= new DesignToolButtonPanel(designMapPanel);
         this.setLayout(new BorderLayout());
-        this.add(spriteGroupPanel,BorderLayout.WEST);
+        this.add(materialGroupPanel,BorderLayout.WEST);
         this.add(designMapPanel,BorderLayout.CENTER);
         this.add(buttonPanel,BorderLayout.NORTH);
     }

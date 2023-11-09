@@ -1,10 +1,10 @@
-package com.oop.sheep.window;
+package com.ht.meditor.window;
 
-import com.oop.sheep.model.HeroSelectContextHolder;
-import com.oop.sheep.model.HeroSprite;
-import com.oop.sheep.model.view.HeroView;
+
+import com.ht.meditor.mode.MaterialSelect;
+import com.ht.meditor.mode.Material;
+import com.ht.meditor.mode.MaterialView;
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class DesignMapPanel extends JPanel {
 
     private int cpix = 50;
@@ -26,16 +25,16 @@ public class DesignMapPanel extends JPanel {
     private int rows = 20;
     private int windowWidth = 0;
     private int windowHeight = 0;
-    private List<HeroView> heroViews = new ArrayList<>();
+    private List<MaterialView> materialViews = new ArrayList<>();
     private static Image bgImg;
     private JLabel bgLabel ;
     
 
     private JLayeredPane jLayeredPane;
 
-    public  DesignMapPanel() throws IOException {
+    public DesignMapPanel() throws IOException {
 
-
+        jLayeredPane = new JLayeredPane();
         //获取总窗体宽高
         GraphicsEnvironment ge=GraphicsEnvironment.getLocalGraphicsEnvironment();
         Rectangle rect=ge.getMaximumWindowBounds();
@@ -49,55 +48,58 @@ public class DesignMapPanel extends JPanel {
         jLayeredPane.setLayout(null);
         this.add(jLayeredPane);
 
-        //设置初始化时的背景图片大小
-        windowWidth = jLayeredPane.getBounds().width;
-        windowHeight = jLayeredPane.getBounds().height;
-        bgImg = ImageIO.read(this.getClass().getResourceAsStream("/images/sprites/bg.jpeg"));
-        bgLabel = new JLabel(new ImageIcon(bgImg.getScaledInstance(windowWidth,windowHeight,Image.SCALE_DEFAULT)));
-        bgLabel.setBounds(0,0,windowWidth,windowHeight);
-        this.jLayeredPane.add(bgLabel,JLayeredPane.DEFAULT_LAYER);
+        setBgImg();
 
         //设置鼠标点击事件
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                addHeros(e.getX(), e.getY());
+                System.out.println(e.getX());
+                System.out.println(e.getY());
+                addMaterial(e.getX(), e.getY());
             }
         });
+        //计算行列数
+
+        columns = windowWidth / columns ;
+        rows = windowHeight / hpix ;
 
     }
-
-    private void addHeros(int x, int y) {
-
-        //循环宽高，找到鼠标点击点最靠近的横竖交界点
-        for (int i = 1; i <= columns; i++) {
-            for (int j = 1; j <= rows; j++) {
-
-                int pointX = i * cpix;
-                int pointY = j * hpix;
-
-                //碰撞检测，判断鼠标点击点与哪行哪列最接近，并记录
-                Rectangle clickPoint = new Rectangle(pointX - cpix / 2, pointY - hpix / 2, cpix, hpix);
-                boolean isIn = clickPoint.contains(x, y);
-                if (isIn) {
-
-                    //找到了最近交界点行号和列号，创建对象并报存
-                    HeroSprite heroSprite = new HeroSprite(i, j, HeroSelectContextHolder.currentHeroType());
-                    HeroView heroView = new HeroView(heroSprite);
-                    Border blackline = BorderFactory.createRaisedBevelBorder();
-                    heroView.setBorder(blackline);
-                    heroView.setIcon(new ImageIcon(heroView.getImage().getScaledInstance(cpix ,hpix*2,Image.SCALE_DEFAULT)));
-                    heroView.setBounds(i * cpix - cpix / 2, j * hpix - hpix, cpix, hpix * 2);
-                    heroViews.add(heroView);
-
-                    //将选择的图像放到找到的中心点位置
-                    jLayeredPane.add(heroView,JLayeredPane.DRAG_LAYER);
-                    System.out.println("c:" + i + ",r:" + j);
-                    this.updateUI();
-                }
-
-            }
+    private void setBgImg(){
+        try {
+            //设置初始化时的背景图片大小
+            windowWidth = jLayeredPane.getBounds().width;
+            windowHeight = jLayeredPane.getBounds().height;
+            bgImg = ImageIO.read(this.getClass().getResourceAsStream("/image/bg.jpeg"));
+            bgLabel = new JLabel(new ImageIcon(bgImg.getScaledInstance(windowWidth, windowHeight, Image.SCALE_DEFAULT)));
+            bgLabel.setBounds(0, 0, windowWidth, windowHeight);
+            this.jLayeredPane.add(bgLabel, JLayeredPane.DEFAULT_LAYER);
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
+    }
+
+    private void addMaterial(int x, int y) {
+        //TODO 获取拖动后的绝对位置
+        int realX=x;
+        int realY=y;
+
+        int col=realX/cpix;
+        int row=realY/hpix;
+
+        Material material = new Material(col, row, MaterialSelect.currentMaterialType());
+        MaterialView materialView = new MaterialView(material);
+        Border blackline = BorderFactory.createRaisedBevelBorder();
+        materialView.setBorder(blackline);
+        materialView.setIcon(new ImageIcon(materialView.getImage().getScaledInstance(cpix ,hpix,Image.SCALE_DEFAULT)));
+        materialView.setBounds(col * cpix , row * hpix, cpix, hpix );
+        materialViews.add(materialView);
+
+        //将选择的图像放到找到的中心点位置
+        jLayeredPane.add(materialView,JLayeredPane.DRAG_LAYER);
+        System.out.println("c:" + col + ",r:" + row);
+        this.updateUI();
+//
 
     }
 
@@ -114,9 +116,9 @@ public class DesignMapPanel extends JPanel {
         windowWidth = this.getBounds().width;
         windowHeight = this.getBounds().height;
 
-        //计算宽高间距
-        cpix = windowWidth / columns - 1;
-        hpix = windowHeight / rows - 1;
+//        //计算宽高间距
+//        cpix = windowWidth / columns - 1;
+//        hpix = windowHeight / rows - 1;
 
         //绘制列线条
         for (int i = 0; i < columns; i++) {
@@ -132,7 +134,27 @@ public class DesignMapPanel extends JPanel {
     }
 
 
-    public List<HeroSprite> heroSprites(){
-        return heroViews.stream().map(heroView -> heroView.getHeroSprite()).collect(Collectors.toList());
+    public List<Material> getMaterials(){
+        return materialViews.stream().map(materialView -> materialView.getMaterial()).collect(Collectors.toList());
+    }
+
+    public void setMaterials(List<Material> materials){
+        if(materials.size()>0){
+            materialViews.clear();
+            jLayeredPane.removeAll();
+        }
+        setBgImg();
+        for(int i=0;i<materials.size();i++){
+            MaterialView materialView=new MaterialView(materials.get(i));
+            Border blackline = BorderFactory.createRaisedBevelBorder();
+            materialView.setBorder(blackline);
+            materialView.setIcon(new ImageIcon(materialView.getImage().getScaledInstance(cpix ,hpix,Image.SCALE_DEFAULT)));
+            materialView.setBounds(materials.get(i).getCol() * cpix , materials.get(i).getRow() * hpix, cpix, hpix );
+            materialViews.add(materialView);
+            jLayeredPane.add(materialView,JLayeredPane.DRAG_LAYER);
+        }
+        if(materialViews.size()>0){
+            this.repaint();
+        }
     }
 }
