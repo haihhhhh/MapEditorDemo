@@ -12,11 +12,6 @@ import java.util.List;
 @Setter
 public class MapData {
 
-    //private Integer level;
     private List<Material> materials;
-
-//    public void reset(){
-//        materials.clear();;
-//    }
 
 }
