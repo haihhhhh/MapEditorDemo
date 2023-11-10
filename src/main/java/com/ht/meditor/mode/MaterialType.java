@@ -2,13 +2,13 @@ package com.ht.meditor.mode;
 
 public enum MaterialType {
 
-    stone(1),//石头
-    grass(2);//草丛
+    stone("stone",1),//石头
+    grass("grass",2);//草丛
 
     private String name;
     private int type ;// 1 阻挡 2遮盖
 
-    MaterialType(int type ){
+    MaterialType(String name,int type ){
         this.type = type;
     }
 

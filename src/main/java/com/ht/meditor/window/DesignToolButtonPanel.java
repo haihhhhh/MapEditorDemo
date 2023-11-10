@@ -2,18 +2,16 @@ package com.ht.meditor.window;
 
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.json.JSONUtil;
 import com.google.gson.GsonBuilder;
 import com.ht.meditor.mode.MapData;
-import com.ht.meditor.mode.Material;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.io.File;
-import java.util.List;
 
 public class DesignToolButtonPanel extends JPanel {
 
+    private JButton souceButton = new JButton("上传资源");
     private JButton saveButton = new JButton("保存地图");
     private JButton loadButton = new JButton("读取地图");
 
@@ -21,6 +19,8 @@ public class DesignToolButtonPanel extends JPanel {
 
     public DesignToolButtonPanel(DesignMapPanel designMapPanel){
         this.designMapPanel = designMapPanel;
+        souceButton.setEnabled(false);
+        this.add(souceButton);
         this.add(loadButton);
         this.loadButton.addActionListener(e -> {
             // 创建文件选择器

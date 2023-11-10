@@ -1,16 +1,15 @@
 package com.ht.meditor.window;
 
 
+import com.ht.meditor.mode.souce.ImageSouce;
 import com.ht.meditor.mode.MaterialSelect;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.io.InputStream;
 
 import com.ht.meditor.mode.MaterialType;
 
@@ -26,34 +25,38 @@ public class DesignMaterialGroupPanel extends JPanel {
           this.add(jScrollPane);
           this.setLayout(new GridLayout(1,1));
 
-          InputStream in= this.getClass().getResourceAsStream("/image/1.png");
-          ImageIcon imageIcon1= new ImageIcon(ImageIO.read(in));
-          imageIcon1.setImage(imageIcon1.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
+          ImageIcon imageIconStone= new ImageIcon(ImageSouce.getImageSouceMap().get("stone"));
+          imageIconStone.setImage(imageIconStone.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
 
           Border blackline = BorderFactory.createLineBorder(Color.BLACK);
-
-          JLabel label1 = new JLabel(imageIcon1);
-          label1.setBorder(blackline);
-          jPanel.add(label1);
-          label1.addMouseListener(new MouseAdapter() {
+          JLabel labelStone = new JLabel(imageIconStone);
+          labelStone.setBorder(blackline);
+          jPanel.add(labelStone);
+          labelStone.addMouseListener(new MouseAdapter() {
                @Override
                public void mouseClicked(MouseEvent e) {
                     MaterialSelect.selectMaterialType(MaterialType.stone);
+                    labelStone.setOpaque(true);
+                    labelStone.setBackground(Color.gray);
+                    labelStone.repaint();
+                    jPanel.updateUI();
                }
           });
 
 
-          ImageIcon imageIcon2= new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream("/image/2.png")));
-          imageIcon2.setImage(imageIcon2.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
-          JLabel label2 = new JLabel(imageIcon2);
-          label2.setBorder(blackline);
-          jPanel.add(label2);
-          label2.addMouseListener(new MouseAdapter() {
+          ImageIcon imageIconGrass= new ImageIcon(ImageSouce.getImageSouceMap().get("grass"));
+          imageIconGrass.setImage(imageIconGrass.getImage().getScaledInstance(200,200,Image.SCALE_DEFAULT));
+          JLabel labelGrass = new JLabel(imageIconGrass);
+          labelGrass.setBorder(blackline);
+          jPanel.add(labelGrass);
+          labelGrass.setBackground(Color.red);
+          labelGrass.addMouseListener(new MouseAdapter() {
                @Override
                public void mouseClicked(MouseEvent e) {
                     MaterialSelect.selectMaterialType(MaterialType.grass);
                }
           });
+
 
      }
 }

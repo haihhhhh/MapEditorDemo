@@ -3,6 +3,10 @@ package com.ht.meditor.mode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author Haitian
+ * @create 2023/11/9
+ */
 @AllArgsConstructor
 @Getter
 public class Material {
