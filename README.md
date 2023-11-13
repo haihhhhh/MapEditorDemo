@@ -15,7 +15,7 @@ git clone https://github.com/haihhhhh/MapEditorDemo
 │   └── window                  # swing面板
 ├── resouces                    # 静态资源
 │   ├── config                  # 系统配置文件
-│   ├── listener                # 图标资源
+│   ├── image                # 图标资源
 ├── test                        # 测试目录
 ├── map.json                    # 地图导出文件示例
 ```
